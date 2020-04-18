@@ -1,0 +1,54 @@
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script defer src="/__/firebase/7.14.1/firebase-app.js"></script>
+    <script defer src="/__/firebase/7.13.1/firebase-database.js"></script>
+    <!-- Initialize Firebase -->
+    <script defer src="/__/firebase/init.js"></script>
+
+    <!-- defer: 이 페이지의 내용이 웹브에 모두 출력된 후, 참조하는 js파일이 다운되고 실행되게 하는 키워드
+    시간이 걸리는 작업을 뒤로 미뤄서, 페이지를 좀 더 빨리 화면에 나타나는 효과가 있음. -->
+</head>
+
+<body>
+    <div id="app">
+        <!-- 속성값 출력 -->
+        <h1>{{ name }}</h1>
+        <p>{{ email }}</p>
+        <p>{{ number }}</p>
+    </div>
+    <script type="text/javascript">
+        //vue 객체 생성. 생성자 파라미터는 js객체이다.(중괄호 묶인 부분)
+        var app = new Vue({
+            el: '#app',     //앱의 기능이 실행될 태그의 id 지정
+            //앱의 속성 선언
+            data: {
+                name: '내 이름은',
+                email: '이메일은',
+                number: '학번은'
+            }
+        });
+
+        //window : 현재 웹브라우저 창을 가리키는 객체
+        //onload : 콜백함수를 등록하기 위한 속성
+        //웹브라우저 창의 모든 내용이 로드되면 onload에 등록된 함수가 자동으로 호출되게 한다.
+        window.onload = function () { 
+            //db의 "hello"항목에 대한 원격참조객체를 대입
+            let helloRef = firebase.database().ref("myinfo"); 
+
+            //helloRef변수가 참조하는 db의 값이 변경되자마자 화살표함수 실행
+            //이때 파라미터 snapshot은 db의 "hello"항목에 대한 값이다.
+            helloRef.on('value', (snapshot) => { 
+                let myinfo = snapshot.val(); //전달받은 항목 값을 꺼내서 대입
+                app.name = myinfo.name; 
+                app.email = myinfo.email; 
+                app.number = myinfo.number; 
+            }); 
+        };
+    </script>
+</body>
+
+</html>
