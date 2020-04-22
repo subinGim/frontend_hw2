@@ -1,0 +1,61 @@
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script defer src="/__/firebase/7.14.1/firebase-app.js"></script>
+    <script defer src="/__/firebase/7.13.1/firebase-database.js"></script>
+    <!-- Initialize Firebase -->
+    <script defer src="/__/firebase/init.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 속성값 출력 -->
+        <h1>{{ title }}</h1>
+        <p>{{ body }}</p>
+        <hr/>
+        <input type="text" v-model="title" /><br/>
+        <input type="text" v-model="body" />
+        <!-- 저장 버튼 추가 -->
+        <button type="button" v-on:click="save">저장</button>
+    </div>
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',     
+            //앱의 속성 선언
+            data: {
+                title: 'hello world',
+                body: 'good morning'
+            },
+            //메소드 추가
+            methods: {
+                save: function () {
+                    let helloRef = firebase.database().ref("hello");
+                    helloRef.set(
+                        {
+                            title: this.title,
+                            body: this.body
+                        }
+                    );
+                }
+            }
+        });
+        //웹브라우저 창의 모든 내용이 로드되면 onload에 등록된 함수가 자동으로 호출되게 한다.
+        window.onload = function () { 
+            //db의 "hello"항목에 대한 원격참조객체를 대입
+            let helloRef = firebase.database().ref("hello"); 
+
+            //helloRef변수가 참조하는 db의 값이 변경되자마자 화살표함수 실행
+            //이때 파라미터 snapshot은 db의 "hello"항목에 대한 값이다.
+            helloRef.on('value', (snapshot) => { 
+                let hello = snapshot.val();
+                app.title = hello.title; 
+                app.body = hello.body; 
+            }); 
+        };
+    </script>
+</body>
+
+</html>
