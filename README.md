@@ -7,3 +7,4 @@
   + 학번 이름 이메일을 출력하는 /public hello3.html추가  
   + 서버 호스팅 링크 > https://skhu-ksb.web.app/hello3.html
   + /public에 empty1.html empty2.html 추가(v-show 예제)
+  + /public에 gugu1.html, gugu2.html 추가 (v-for) 20.05.04
