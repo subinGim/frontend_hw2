@@ -13,29 +13,34 @@
             font-size: 11pt;
         }
 
-        span {
-            display: inline-block;
-            margin: 10px;
-            padding: 30px 30px;
-            border: 1px solid black;
-            background-color: rgb(255, 255, 109);
-            
+        table {
+            margin-top: 20px;
+            border-collapse: collapse;
         }
+        table td{
+            padding: 5px;
+        }
+
     </style>
 </head>
 
 <body>
     <div id="app">
-        <div>
-            <span v-on:click="increase" v-model="value">{{ value }}</span>
-        </div>
+
+        <input type="text" v-model="value"/>
+        <table border="1">
+            <tr v-for="r in size">
+                <td v-for="">{{ value }}x{{ r }}={{ value*r s}}</td>
+            </tr>
+        </table>
 
     </div>
     <script type="text/javascript">
         var app = new Vue({
             el: '#app',
             data: {
-                value: 0,
+                value: 2,
+                size = 9
             },
             methods: {
                 increase: function() {
