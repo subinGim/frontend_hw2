@@ -30,7 +30,7 @@
         <input type="text" v-model="value"/>
         <table border="1">
             <tr v-for="r in size">
-                <td v-for="">{{ value }}x{{ r }}={{ value*r s}}</td>
+                <td>{{ value }} x {{ r }} = {{ value*r }}</td>
             </tr>
         </table>
 
@@ -40,7 +40,7 @@
             el: '#app',
             data: {
                 value: 2,
-                size = 9
+                size: 9
             },
             methods: {
                 increase: function() {
