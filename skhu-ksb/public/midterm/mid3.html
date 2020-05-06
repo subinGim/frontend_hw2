@@ -37,7 +37,8 @@
             data: {
                 value: 0
             },
-            mounted: {
+            mounted: function() {
+                setInterval(this.increase, 1000);
             },
             methods: {
                 increase: function() {

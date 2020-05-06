@@ -20,14 +20,21 @@
             font-weight: bolder;
         }
 
+        .pink{
+            background-color: pink;
+        }
+
+        .purple{
+            background-color: plum;
+        }
     </style>
 </head>
 
 <body>
     <div id="app">
-        <input id="name" type="radio" v-bind:gender="visible" v-model="gender"/>남자
-        <input id="name" type="radio" v-bind:gender="!visible" v-model="gender"/>여자<br>
-        <span v-model="visible">
+        <input id="name" type="radio" v-bind:value="true" v-model="gender" v-bind:class="purple"/>남자
+        <input id="name" type="radio" v-bind:value="false" v-model="gender" v-bind:class="pink"/>여자<br>
+        <span v-model="visible" v-bind="gender == 'true'? '남자':'여자'">
             {{ gender }}
         </span>
 
@@ -41,9 +48,7 @@
                 visible: true
             },
             methods: {
-                increase: function() {
-                    this.value++;
-                }
+               
             }
 
         })    
