@@ -4,6 +4,10 @@ for(let i=0; i<10; i++){
 }
 console.log(b);
 
-let num = 0;
-b.reduce((i) => i % 2 === 0 ? num++ : 0);
-console.log(num);
+let count = 0;
+b.reduce((a, b) => {
+    if(a % 2 == 0)
+        count++;
+    return b;
+});
+console.log(count);
