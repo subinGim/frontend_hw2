@@ -21,20 +21,20 @@
         }
 
         .pink{
-            background-color: pink;
+            background-color: rgb(255, 215, 222);
         }
 
         .purple{
-            background-color: plum;
+            background-color: rgb(228, 223, 255);
         }
     </style>
 </head>
 
 <body>
-    <div id="app">
-        <input id="name" type="radio" v-bind:value="true" v-model="gender" v-bind:class="purple"/>남자
-        <input id="name" type="radio" v-bind:value="false" v-model="gender" v-bind:class="pink"/>여자<br>
-        <span v-model="visible" v-bind="gender == 'true'? '남자':'여자'">
+    <div id="app" v-bind:class="{pink: !visible, purple: visible}">
+        <input id="name" type="radio" v-bind:value="true" v-model="visible"/>남자
+        <input id="name" type="radio" v-bind:value="false" v-model="visible"/>여자<br>
+        <span v-model="gender" v-show="visible">
             {{ gender }}
         </span>
 
@@ -43,9 +43,15 @@
         var app = new Vue({
             el: '#app',
             data: {
-                value: 0,
                 gender: "남자",
                 visible: true
+            },
+            mounted() {
+                if(visible)
+                    this.gender = "남자";
+                else
+                    this.gender = "여자";
+
             },
             methods: {
                
