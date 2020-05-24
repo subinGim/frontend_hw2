@@ -9,3 +9,9 @@
   + /public에 empty1.html empty2.html 추가(v-show 예제)
   + /public에 gugu1.html, gugu2.html 추가 (v-for) 20.05.04
   + /public에 color1.html 추가 (v-bind) 20.05.05
+
+  + /public에 todo17.html 추가 (TodoApp CRUD, firebase, axios) 20.05.24
+    + 할 일 항목 추가
+    + firebase에 추가된 항목들 리스트로 출력
+    + 체크된 항목들을 한번에 수정
+    + 체크된 항목들을 한번에 삭제
