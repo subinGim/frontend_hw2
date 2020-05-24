@@ -1,0 +1,97 @@
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script defer src="/__/firebase/7.13.1/firebase-app.js"></script>
+    <script defer src="/__/firebase/7.13.1/firebase-database.js"></script>
+    <script defer src="/__/firebase/init.js"></script>
+    <!-- axios라이브러리 추가 -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="todo1.css">
+    <style>
+        ul {
+            list-style-type: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <h1>할 일</h1>
+        <p>*수정 : 수정할 항목 모두 체크 -> 입력 후 수정버튼 클릭<br>
+        *삭제 : 삭제할 항목 모두 체크 -> 삭제버튼 클릭</p>
+        <ul>
+            <li v-for="(todo, index) in todoList" v-bind:key="index">
+                <input type="checkbox" v-model="checked[index]" />
+                {{ todo.content }}
+
+            </li>
+        </ul>
+        <input type="text" v-model.trim="todo.content" />
+        <button type="button" v-on:click="save" v-bind:disabled="!todo.content">할일 추가</button>
+        <button type="button" v-on:click="edit" v-show="checkedCount > 0">수정</button>
+        <button type="button" v-on:click="remove" v-show="checkedCount > 0">삭제</button>
+
+
+    </div>
+
+    <script type="text/javascript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                todoList: {},
+                checked: [],
+                todo: {},
+                isCreate: true,
+                selectedKey: null
+            },
+            computed: {
+                checkedCount: function () {
+                    let count = 0;
+                    for (let i = 0; i < Object.keys(this.checked).length; ++i) {
+                        var key = Object.keys(this.checked)[i];
+                        if (this.checked[key]) ++count;
+                    }
+                    return count;
+                }
+            },
+            methods: {
+                save: function () {
+                        axios.post('https://skhu-ksb.firebaseio.com/todo1.json', this.todo)
+                            .then(response => this.reload());
+                },
+                reload: function () {
+                    axios.get('https://skhu-ksb.firebaseio.com/todo1.json')
+                        .then(response => app.todoList = response.data);
+                },
+                edit: function () {
+                    for (let i = 0; i < Object.keys(this.checked).length; i++) {
+                        var key = Object.keys(this.checked)[i];
+                        if (this.checked[key])
+                            axios.put('https://skhu-ksb.firebaseio.com/todo1/' + key + '.json', this.todo)
+                                .then(response => this.reload());
+                    }
+                    this.checked = [];
+                },
+                remove: function () {
+                    if (confirm("삭제하시겠습니까?") == false) return;
+                    for (let i = 0; i < Object.keys(this.checked).length; i++) {
+                        this.selectedKey = Object.keys(this.checked)[i];
+                        if (this.checked[this.selectedKey])
+                            axios.delete('https://skhu-ksb.firebaseio.com/todo1/' + this.selectedKey + '.json')
+                                .then(response => this.reload());
+                    }
+                    this.selectedKey = null;
+                    this.checked = [];
+                }
+            }
+        })
+
+        window.onload = function () {
+            app.reload();
+        }
+    </script>
+</body>
+
+</html>
